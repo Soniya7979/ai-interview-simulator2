@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - AI Interview Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎤 AI Interview Simulator</h1>
+            <p>Create account to track your progress</p>
+        </header>
+
+        <section class="section auth-section">
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <input type="email" id="signup-email" placeholder="Email" required>
+                <input type="password" id="signup-password" placeholder="Password" required>
+                <input type="password" id="signup-confirm" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p>Already have an account? <a href="login.html">Login</a></p>
+            <div id="auth-message"></div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            if (password !== confirm) {
+                document.getElementById('auth-message').textContent = 'Passwords do not match!';
+                return;
+            }
+            // Mock signup - store hashed pw simulation
+            localStorage.setItem('users', JSON.stringify([...(JSON.parse(localStorage.getItem('users') || '[]')), {
+                email,
+                password: btoa(password)
+            }]));
+            const user = {
+                email,
+                name: email.split('@')[0]
+            };
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', 'mock-jwt-' + Date.now());
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+
+</html>
